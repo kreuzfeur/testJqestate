@@ -15,12 +15,15 @@ import {
 	updatePaginationSuccess,
 	updateCurrentPage
 } from '../../actions'
+//router
+import { withRouter } from 'react-router-dom'
 
 class ProductsContainer extends Component {
 	componentDidMount = () => {
-		const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, pagination } = this.props;
+		const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, page } = this.props;
+		document.title = `Страница ${page}`
 		updateItemsPending();
-		this.props.apiService.getProducts(pagination.currentPage)
+		this.props.apiService.getProducts(page - 1)
 			.then(response => {
 				updateItemsSuccess(response.data.items)
 				updatePaginationSuccess(response.data.pagination)
@@ -31,7 +34,8 @@ class ProductsContainer extends Component {
 	}
 	componentDidUpdate = (prevState) => {
 		if (prevState.pagination.currentPage !== this.props.pagination.currentPage) {
-			const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, pagination } = this.props;
+			const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, pagination, page } = this.props;
+			document.title = `Страница ${page}`
 			updateItemsPending();
 			this.props.apiService.getProducts(pagination.currentPage)
 				.then(response => {
@@ -44,11 +48,12 @@ class ProductsContainer extends Component {
 		}
 	}
 	render() {
-		const { loading, items, pagination, updateCurrentPage } = this.props;
+		const { loading, items, pagination, updateCurrentPage, history, match} = this.props;
 		const loader = (loading) ? <Preloader /> : null;
+		// const displayError = (error) ? error : null;
 		const products = items.map(({ id, location, saleOffer, specification, landDetails, images }) => {
 			let price = 'нет цены'
-			if(saleOffer){
+			if (saleOffer) {
 				price = saleOffer.multiCurrencyPrice.usd
 			}
 			let imgUrl = false
@@ -77,8 +82,12 @@ class ProductsContainer extends Component {
 					activeClassName="active"
 					previousLabel="<"
 					nextLabel=">"
-					pageCount={pagination.total}
-					onPageChange={(page) => updateCurrentPage(page.selected)}
+					pageCount={pagination.total / 32}
+					onPageChange={(page) => {
+						updateCurrentPage(page.selected);
+						history.push(`${page.selected + 1}`);
+					}}
+					initialPage={parseInt(match.params.page - 1)}
 				/>
 			</div>
 		)
@@ -99,4 +108,4 @@ const mapDispatchToProps = {
 	updatePaginationSuccess,
 	updateCurrentPage
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withApiService(ProductsContainer))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withApiService(ProductsContainer)))

@@ -10,8 +10,8 @@ const updatePagination = (state, action) => {
 	switch (action.type) {
 		case 'UPDATE_PAGINATION_SUCCESS':
 			return {
-				...action.payload,
-				currentPage: 0
+				...state.pagination,
+				...action.payload
 			}
 		case 'UPDATE_CURRENT_PAGE':
 			return {

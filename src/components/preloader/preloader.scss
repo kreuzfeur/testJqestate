@@ -30,10 +30,11 @@
 }
 .loadingio-spinner-reload-m410u3nsnkn {
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% + 50px);
+  position: fixed;
+  top: -50px;
   display: inline-block;
   overflow: hidden;
-  position: absolute;
   z-index: 1000;
   background: #ffffffad
 }
@@ -45,6 +46,6 @@
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
   margin: 0 auto;
-  transform: translateY(50%);
+  transform: translateY(150%);
 }
 .ldio-p711navc0fd div { box-sizing: content-box; }

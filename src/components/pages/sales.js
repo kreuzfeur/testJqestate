@@ -3,10 +3,10 @@ import React from 'react'
 //components
 import {ProductsContainer} from '../containers'
 
-const Sales = () => {
+const Sales = ({match}) => {
 	return (
 		<section className="sales">
-			<ProductsContainer/>
+			<ProductsContainer page={match.params.page}/>
 		</section>
 	)
 }

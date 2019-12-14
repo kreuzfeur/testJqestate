@@ -11,8 +11,9 @@ const App = () => {
 	return (
 		<section className="app">
 			<Switch>
-				<Route render={() => <Link to='/sales' className="button">Продажа</Link>} path='/' exact/>
-				<Route component={Sales} path='/sales'/>
+				<Route render={() => <Link to='/sales/1' className="button">Продажа</Link>} path='/' exact />
+				<Route component={Sales} path='/sales/:page' />
+				<Route render={() => <section><h1>404</h1></section>} />
 			</Switch>
 		</section>
 	)

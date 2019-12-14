@@ -4,6 +4,12 @@ const updateItemsPending = () => {
 	}
 }
 const updateItemsSuccess = (items) => {
+	if (typeof items !== 'object') {
+		return {
+			type: 'UPDATE_ITEMS_ERROR',
+			payload: 'Нет объектов'
+		}
+	}
 	return {
 		type: 'UPDATE_ITEMS_SUCCESS',
 		payload: items

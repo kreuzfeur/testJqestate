@@ -2,7 +2,8 @@ const updateData = (state, action) => {
 	if (state === undefined) {
 		return {
 			loading: true,
-			items: []
+			items: [],
+			error: false
 		}
 	}
 	switch (action.type) {
@@ -14,7 +15,7 @@ const updateData = (state, action) => {
 		case 'UPDATE_ITEMS_SUCCESS':
 			return {
 				...state.data,
-				loading: true,
+				loading: false,
 				items: action.payload	
 			}
 		case 'UPDATE_ITEMS_ERROR':
