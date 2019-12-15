@@ -16,7 +16,7 @@ import {
 	updateCurrentPage
 } from '../../actions'
 //router
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 class ProductsContainer extends Component {
 	componentDidMount = () => {
@@ -28,7 +28,7 @@ class ProductsContainer extends Component {
 		}
 	}
 	onUpdatePage = (changedPage) => {
-		const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, pagination, page } = this.props;
+		const { updateItemsError, updateItemsPending, updateItemsSuccess, updatePaginationSuccess, page } = this.props;
 		document.title = `Страница ${page}`;
 		updateItemsPending();
 		this.props.apiService.getProducts(changedPage)
@@ -52,16 +52,20 @@ class ProductsContainer extends Component {
 			if (images[0]) {
 				imgUrl = `http://images.jqestate.ru/${images[0].id}-thumbnail-512`;
 			}
-			return <Product
-				key={id}
-				districtName={location.districtName}
-				mkadDistance={location.mkadDistance}
-				id={id}
-				price={price}
-				specificationsArea={specification.area}
-				landArea={landDetails.area}
-				imgUrl={imgUrl}
-			/>
+			return (
+				<Link to={`home/${id}`} key={id}>
+					<Product
+						
+						districtName={location.districtName}
+						mkadDistance={location.mkadDistance}
+						id={id}
+						price={price}
+						specificationsArea={specification.area}
+						landArea={landDetails.area}
+						imgUrl={imgUrl}
+					/>
+				</Link>
+			)
 		})
 		return (
 			<div>
